@@ -47,8 +47,18 @@ def property_value(event: str, name: str) -> str:
 
 
 def applies_to_targets(event: str) -> bool:
-    haystack = event.casefold()
-    return any(target in haystack for target in TARGETS)
+    """Conserva todos los festivos comunes y solo los locales elegidos.
+
+    En el calendario de Open Data Euskadi, los festivos comunes a toda la
+    comunidad aparecen sin LOCATION. Los festivos locales sí incluyen el
+    municipio en LOCATION. Por tanto:
+      - sin LOCATION => festivo común aplicable en Euskadi;
+      - con LOCATION => solo Bilbao/Bilbo o Basauri.
+    """
+    location = property_value(event, "LOCATION").casefold()
+    if not location:
+        return True
+    return any(target in location for target in TARGETS)
 
 
 def event_key(event: str) -> tuple[str, str]:
@@ -101,7 +111,7 @@ def build_calendar(years: list[int]) -> str:
 
         matches = [event for event in parse_events(source) if applies_to_targets(event)]
         if not matches:
-            print(f"Aviso: no se encontraron eventos para Bilbao/Basauri en {year}")
+            print(f"Aviso: no se encontraron eventos aplicables para {year}")
             continue
 
         downloaded += 1
@@ -115,12 +125,12 @@ def build_calendar(years: list[int]) -> str:
     header = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
-        "PRODID:-//AsierB//Festivos Bilbao y Basauri//ES",
+        "PRODID:-//AsierB//Festivos Euskadi Bilbao y Basauri//ES",
         "CALSCALE:GREGORIAN",
         "METHOD:PUBLISH",
-        "X-WR-CALNAME:Festivos Bilbao y Basauri",
+        "X-WR-CALNAME:Festivos Euskadi, Bilbao y Basauri",
         "X-WR-TIMEZONE:Europe/Madrid",
-        f"X-WR-CALDESC:{escape_ics('Calendario filtrado desde Open Data Euskadi. Actualizado ' + stamp)}",
+        f"X-WR-CALDESC:{escape_ics('Festivos comunes de Euskadi y locales de Bilbao y Basauri. Actualizado ' + stamp)}",
     ]
     body = [selected[key] for key in sorted(selected)]
     return "\r\n".join(header + body + ["END:VCALENDAR", ""])
