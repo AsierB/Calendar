@@ -1,0 +1,40 @@
+name: Actualizar calendario
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 5 1 * *"
+  push:
+    branches: [main]
+    paths:
+      - "generar_calendario.py"
+      - ".github/workflows/actualizar.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generar calendario
+        run: |
+          YEAR=$(date +%Y)
+          NEXT=$((YEAR + 1))
+          python generar_calendario.py \
+            --years "$YEAR" "$NEXT" \
+            --output docs/festivos-bilbao-basauri.ics
+
+      - name: Publicar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/festivos-bilbao-basauri.ics
+          git diff --cached --quiet || git commit -m "Actualizar calendario"
+          git push
