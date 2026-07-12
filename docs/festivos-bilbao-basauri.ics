@@ -5,7 +5,7 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Festivos Euskadi, Bilbao y Basauri
 X-WR-TIMEZONE:Europe/Madrid
-X-WR-CALDESC:Festivos comunes de Euskadi y locales de Bilbao y Basauri. Actualizado 20260712T202025Z
+X-WR-CALDESC:Festivos comunes de Euskadi y locales de Bilbao y Basauri. Actualizado 20260712T202229Z
 BEGIN:VEVENT
 UID:cd7783c70ae55569d215@festivos-bilbao-basauri
 DTSTART;VALUE=DATE:20260828T000001
