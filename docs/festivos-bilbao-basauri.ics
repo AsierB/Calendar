@@ -1,11 +1,11 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//AsierB//Festivos Bilbao y Basauri//ES
+PRODID:-//AsierB//Festivos Euskadi Bilbao y Basauri//ES
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Festivos Bilbao y Basauri
+X-WR-CALNAME:Festivos Euskadi, Bilbao y Basauri
 X-WR-TIMEZONE:Europe/Madrid
-X-WR-CALDESC:Calendario filtrado desde Open Data Euskadi. Actualizado 20260712T201141Z
+X-WR-CALDESC:Festivos comunes de Euskadi y locales de Bilbao y Basauri. Actualizado 20260712T202025Z
 BEGIN:VEVENT
 UID:cd7783c70ae55569d215@festivos-bilbao-basauri
 DTSTART;VALUE=DATE:20260828T000001
